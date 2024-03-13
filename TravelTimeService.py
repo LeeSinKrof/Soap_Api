@@ -29,12 +29,15 @@ def soap_service():
     if request.method == 'OPTIONS':
         response_headers = {
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST, GET',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type',
         }
         return '', 200, response_headers
-    else:
+    elif request.method == 'POST':
         return WsgiApplication(application)
+    else:
+        return 'Hello World!'
+
 
 if __name__ == '__main__':
     wsgi_application = WsgiApplication(application)
