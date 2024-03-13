@@ -26,17 +26,7 @@ application = Application([TravelTimeService], 'travel',
 
 @app.route('/', methods=['POST', 'GET', 'OPTIONS'])
 def soap_service():
-    if request.method == 'OPTIONS':
-        response_headers = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-        }
-        return '', 200, response_headers
-    elif request.method == 'POST':
-        return WsgiApplication(application)
-    else:
-        return render_template('index.html')
+    return render_template('index.html')
 
 
 
