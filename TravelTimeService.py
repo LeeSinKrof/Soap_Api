@@ -2,7 +2,7 @@ from spyne import Application, rpc, ServiceBase
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
 from wsgiref.simple_server import make_server
-from flask import Flask, request, render_template
+from flask import Flask, request
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
@@ -24,11 +24,28 @@ application = Application([TravelTimeService], 'travel',
                           in_protocol=Soap11(validator='lxml'),
                           out_protocol=Soap11())
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET', 'OPTIONS'])
 def soap_service():
-    return render_template('index.html')
-
+    if request.method == 'OPTIONS':
+        response_headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+        }
+        return '', 200, response_headers
+    elif request.method == 'POST':
+        return WsgiApplication(application)
+    else:
+        return 'Hello World!'
 
 
 if __name__ == '__main__':
-    app.run()
+    wsgi_application = WsgiApplication(application)
+
+    host = (os.getenv('HOST') or "127.0.0.1")
+    port = (int(os.getenv('PORT')) or 8000)
+
+    print(f'Listening on {host}:{port}...')
+
+    server = make_server(host, port, app)
+    server.serve_forever()
