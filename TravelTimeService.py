@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "https://emre-projet802.pages.dev", "methods": ["GET", "POST", "OPTIONS"], "headers": ["Content-Type"]}})
 
 class TravelTimeService(ServiceBase):
-    @rpc(float, float, float, _returns=float)
+    @rpc(float, float, float, _returns=float, _body_style='wrapped')
     def calculate_travel_time(ctx, distance, autonomy, charging_time):
         return distance / autonomy * charging_time
 
