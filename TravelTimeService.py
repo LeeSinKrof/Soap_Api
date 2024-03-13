@@ -34,7 +34,8 @@ def soap_service():
         }
         return '', 200, response_headers
     elif request.method == 'POST':
-        return WsgiApplication(application)
+        response = wsgi_application.__call__(request.environ, response_headers)
+        return response
     else:
         return 'Hello World!'
 
