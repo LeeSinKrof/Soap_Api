@@ -2,12 +2,15 @@ from spyne import Application, rpc, ServiceBase
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
 from wsgiref.simple_server import make_server
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 
+
+
 load_dotenv()
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "https://emre-projet802.pages.dev", "methods": ["GET", "POST", "OPTIONS"], "headers": ["Content-Type"]}})
@@ -30,8 +33,6 @@ def soap_service():
             'Access-Control-Allow-Headers': 'Content-Type',
         }
         return '', 200, response_headers
-    elif request.method == 'GET':
-        return 'Hello World!'  # Add this line to return 'Hello World!' for GET requests
     else:
         return WsgiApplication(application)
 
