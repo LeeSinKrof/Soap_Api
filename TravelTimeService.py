@@ -24,7 +24,7 @@ application = Application([TravelTimeService], 'travel',
                           in_protocol=Soap11(validator='lxml'),
                           out_protocol=Soap11())
 
-@app.route('/', methods=['POST', 'GET', 'OPTIONS'])
+@app.route('/')
 def soap_service():
     return render_template('index.html')
 
