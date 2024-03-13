@@ -1,51 +1,32 @@
-from spyne import Application, rpc, ServiceBase
-from spyne.protocol.soap import Soap11
-from spyne.server.wsgi import WsgiApplication
-from wsgiref.simple_server import make_server
-from flask import Flask, request
-from flask_cors import CORS
-from dotenv import load_dotenv
 import os
 
-
-
-load_dotenv()
-
+from flask import (Flask, redirect, render_template, request,
+                   send_from_directory, url_for)
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://emre-projet802.pages.dev", "methods": ["GET", "POST", "OPTIONS"], "headers": ["Content-Type"]}})
 
-class TravelTimeService(ServiceBase):
-    @rpc(float, float, float, _returns=float, _body_style='wrapped')
-    def calculate_travel_time(ctx, distance, autonomy, charging_time):
-        return distance / autonomy * charging_time
 
-application = Application([TravelTimeService], 'travel',
-                          in_protocol=Soap11(validator='lxml'),
-                          out_protocol=Soap11())
+@app.route('/')
+def index():
+   print('Request for index page received')
+   return render_template('index.html')
 
-@app.route('/', methods=['POST', 'GET', 'OPTIONS'])
-def soap_service():
-    if request.method == 'OPTIONS':
-        response_headers = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-        }
-        return '', 200, response_headers
-    elif request.method == 'POST':
-        return WsgiApplication(application)
-    else:
-        return 'Hello World!'
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+@app.route('/hello', methods=['POST'])
+def hello():
+   name = request.form.get('name')
+
+   if name:
+       print('Request for hello page received with name=%s' % name)
+       return render_template('hello.html', name = name)
+   else:
+       print('Request for hello page received with no name or blank name -- redirecting')
+       return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
-    wsgi_application = WsgiApplication(application)
-
-    host = (os.getenv('HOST') or "127.0.0.1")
-    port = (int(os.getenv('PORT')) or 8000)
-
-    print(f'Listening on {host}:{port}...')
-
-    server = make_server(host, port, app)
-    server.serve_forever()
+   app.run()
