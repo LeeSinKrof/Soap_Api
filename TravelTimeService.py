@@ -13,7 +13,7 @@ load_dotenv()
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://emre-projet802.pages.dev"}})
+CORS(app)
 
 class TravelTimeService(ServiceBase):
     @rpc(float, float, float, _returns=float)
