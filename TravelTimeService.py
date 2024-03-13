@@ -28,7 +28,7 @@ application = Application([TravelTimeService], 'travel',
 def soap_service():
     if request.method == 'OPTIONS':
         response_headers = {
-            'Access-Control-Allow-Origin': 'https://emre-projet802.pages.dev',
+            'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type',
         }
@@ -37,7 +37,6 @@ def soap_service():
         return WsgiApplication(application)
     else:
         return 'Hello World!'
-
 
 
 if __name__ == '__main__':
