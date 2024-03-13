@@ -41,6 +41,7 @@ def soap_service():
 
 if __name__ == '__main__':
     wsgi_application = WsgiApplication(application)
+    app.wsgi_app = wsgi_application
 
     host = (os.getenv('HOST') or "127.0.0.1")
     port = (int(os.getenv('PORT')) or 8000)
