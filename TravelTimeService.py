@@ -24,19 +24,21 @@ application = Application([TravelTimeService], 'travel',
                           in_protocol=Soap11(validator='lxml'),
                           out_protocol=Soap11())
 
-@app.route('/', methods=['POST', 'GET', 'OPTIONS'])
+@app.route('/', methods=['OPTIONS'])
+def soap_options_service():
+    response_headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+    }
+    return '', 200, response_headers
+   
+    
+
+@app.route('/post', methods=['POST'])
 def soap_service():
-    if request.method == 'OPTIONS':
-        response_headers = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-        }
-        return '', 200, response_headers
-    elif request.method == 'POST':
-        return WsgiApplication(application)
-    else:
-        return 'Hello World!'
+    return WsgiApplication(application)
+
 
 
 if __name__ == '__main__':
