@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/3ecd51dc-c86b-409d-8886-b1c65076b93e/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/projet802-sapi",
+    "appService.deploySubpath": "."
+}

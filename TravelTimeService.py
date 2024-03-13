@@ -4,6 +4,13 @@ from spyne.server.wsgi import WsgiApplication
 from wsgiref.simple_server import make_server
 from flask import Flask, request
 from flask_cors import CORS
+from dotenv import load_dotenv
+import os
+
+
+
+load_dotenv()
+
 
 app = Flask(__name__)
 CORS(app)
@@ -32,5 +39,10 @@ def soap_service():
 if __name__ == '__main__':
     wsgi_application = WsgiApplication(application)
 
-    server = make_server('localhost', 8000, app)
+    host = os.getenv('HOST')
+    port = int(os.getenv('PORT'))
+
+    print(f'Listening on {host}:{port}...')
+
+    server = make_server(host, port, app)
     server.serve_forever()
