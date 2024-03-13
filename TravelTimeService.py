@@ -33,7 +33,7 @@ def soap_service():
             'Access-Control-Allow-Headers': 'Content-Type',
         }
         return '', 200, response_headers
-    elif request.method == 'POST':
+    else:
         return WsgiApplication(application)
 
 if __name__ == '__main__':
