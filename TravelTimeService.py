@@ -42,8 +42,8 @@ def soap_service():
 if __name__ == '__main__':
     wsgi_application = WsgiApplication(application)
 
-    host = os.getenv('HOST')
-    port = int(os.getenv('PORT'))
+    host = (os.getenv('HOST') or "0.0.0.0")
+    port = (int(os.getenv('PORT')) or 3000)
 
     print(f'Listening on {host}:{port}...')
 
