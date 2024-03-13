@@ -31,12 +31,4 @@ def soap_service():
 
 
 if __name__ == '__main__':
-    wsgi_application = WsgiApplication(application)
-
-    host = (os.getenv('HOST') or "127.0.0.1")
-    port = (int(os.getenv('PORT')) or 8000)
-
-    print(f'Listening on {host}:{port}...')
-
-    server = make_server(host, port, app)
-    server.serve_forever()
+    app.run()
