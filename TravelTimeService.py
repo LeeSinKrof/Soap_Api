@@ -25,7 +25,7 @@ application = Application([TravelTimeService], 'travel',
                           in_protocol=Soap11(validator='lxml'),
                           out_protocol=Soap11())
 
-@app.route('/', methods=['POST', 'GET', 'OPTIONS'])
+@app.route('/get', methods=['POST', 'GET', 'OPTIONS'])
 def soap_service():
     if request.method == 'OPTIONS':
         response_headers = {
