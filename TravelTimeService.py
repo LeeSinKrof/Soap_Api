@@ -29,6 +29,7 @@ def soap_service():
     if request.method == 'OPTIONS':
         response_headers = {
             'Access-Control-Allow-Origin': 'https://emre-projet802.pages.dev',
+            'Access-Control-Allow-Credentials': 'true',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type',
         }
