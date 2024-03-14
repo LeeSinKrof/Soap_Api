@@ -28,22 +28,21 @@ application = Application([TravelTimeService], 'travel',
 def soap_service():
     if request.method == 'OPTIONS':
         response_headers = {
-            'Access-Control-Allow-Origin': 'https://emre-projet802.pages.dev',
+            'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': 'true',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type',
         }
         return '', 200, response_headers
-    elif request.method == 'POST':
+    else :
+        print('Request received')
         return WsgiApplication(application)
-    else:
-        return 'Hello World!'
 
 
 if __name__ == '__main__':
     wsgi_application = WsgiApplication(application)
 
-    host = (os.getenv('HOST') or "127.0.0.1")
+    host = (os.getenv('HOST') or "0.0.0.0")
     port = (int(os.getenv('PORT')) or 8000)
 
     print(f'Listening on {host}:{port}...')
