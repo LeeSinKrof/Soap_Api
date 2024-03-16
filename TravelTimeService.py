@@ -4,19 +4,12 @@ from spyne.server.wsgi import WsgiApplication
 from wsgiref.simple_server import make_server
 from flask import Flask, request
 from flask_cors import CORS
-from dotenv import load_dotenv
-import os
-
-
-
-load_dotenv()
-
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*", "methods": "*", "headers": "*"}})
 
 class TravelTimeService(ServiceBase):
-    @rpc(float, float, float, int, _returns=float, _body_style='wrapped')
+    @rpc(float, float, float, int, _returns=float)
     def calculate_travel_time(ctx, distance, charging_time, max_speed, number_of_stations):
         return (distance / max_speed) + number_of_stations * charging_time
 
@@ -42,10 +35,11 @@ def soap_service():
 if __name__ == '__main__':
     wsgi_application = WsgiApplication(application)
 
-    host = (os.getenv('HOST') or "0.0.0.0")
-    port = (int(os.getenv('PORT')) or 8000)
+    host = "0.0.0.0"
+    port = 8000
 
-    print(f'Listening on {host}:{port}...')
 
     server = make_server(host, port, app)
+    print(f'Listening on {host}:{port}...')
+
     server.serve_forever()
