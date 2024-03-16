@@ -9,9 +9,9 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*", "methods": "*", "headers": "*"}})
 
 class TravelTimeService(ServiceBase):
-    @rpc(float, float, float, int, _returns=float)
-    def calculate_travel_time(ctx, distance, charging_time, max_speed, number_of_stations):
-        return (distance / max_speed) + number_of_stations * charging_time
+    @rpc(float, float, int, _returns=float)
+    def calculate_travel_time(ctx, duration, charging_time, number_of_stations):
+        return duration + (number_of_stations * charging_time)
 
 application = Application([TravelTimeService], 'travel',
                           in_protocol=Soap11(validator='lxml'),
