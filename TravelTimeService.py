@@ -51,6 +51,4 @@ if __name__ == '__main__':
 
 
     server = make_server(host, port, app)
-    print(f'Listening on {host}:{port}...')
-
     server.serve_forever()
